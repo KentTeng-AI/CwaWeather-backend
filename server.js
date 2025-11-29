@@ -15,8 +15,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-/**
- * 取得高雄天氣預報
+/**s
+ * 取得新北市天氣預報
  * CWA 氣象資料開放平臺 API
  * 使用「一般天氣預報-今明 36 小時天氣預報」資料集
  */
@@ -43,7 +43,7 @@ const getNewTaipeiCityWeather = async (req, res) => {
       }
     );
 
-    // 取得高雄市的天氣資料
+    // 取得新北市的天氣資料
     const locationData = response.data.records.location[0];
 
     if (!locationData) {
@@ -132,7 +132,7 @@ app.get("/", (req, res) => {
   res.json({
     message: "歡迎使用 CWA 天氣預報 API",
     endpoints: {
-      kaohsiung: "/api/weather/newtaipeicity",
+      newtaipeicity: "/api/weather/newtaipeicity",
       health: "/api/health",
     },
   });
