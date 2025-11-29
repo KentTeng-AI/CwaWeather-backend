@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const axios = require("axios");
+const axios = require("");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
  * CWA 氣象資料開放平臺 API
  * 使用「一般天氣預報-今明 36 小時天氣預報」資料集
  */
-const getKaohsiungWeather = async (req, res) => {
+const getNewTaipeiCityWeather = async (req, res) => {
   try {
     // 檢查是否有設定 API Key
     if (!CWA_API_KEY) {
@@ -30,6 +30,7 @@ const getKaohsiungWeather = async (req, res) => {
       });
     }
 
+
     // 呼叫 CWA API - 一般天氣預報（36小時）
     // API 文件: https://opendata.cwa.gov.tw/dist/opendata-swagger.html
     const response = await axios.get(
@@ -37,7 +38,7 @@ const getKaohsiungWeather = async (req, res) => {
       {
         params: {
           Authorization: CWA_API_KEY,
-          locationName: "宜蘭縣",
+          locationName: "新北市",
         },
       }
     );
@@ -48,7 +49,7 @@ const getKaohsiungWeather = async (req, res) => {
     if (!locationData) {
       return res.status(404).json({
         error: "查無資料",
-        message: "無法取得高雄市天氣資料",
+        message: "無法取得新北市天氣資料",
       });
     }
 
@@ -64,7 +65,8 @@ const getKaohsiungWeather = async (req, res) => {
     const timeCount = weatherElements[0].time.length;
 
     for (let i = 0; i < timeCount; i++) {
-      const forecast = {
+      const 
+       = {
         startTime: weatherElements[0].time[i].startTime,
         endTime: weatherElements[0].time[i].endTime,
         weather: "",
@@ -131,7 +133,7 @@ app.get("/", (req, res) => {
   res.json({
     message: "歡迎使用 CWA 天氣預報 API",
     endpoints: {
-      kaohsiung: "/api/weather/kaohsiung",
+      kaohsiung: "/api/weather/newtaipeicity",
       health: "/api/health",
     },
   });
@@ -141,8 +143,8 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "OK", timestamp: new Date().toISOString() });
 });
 
-// 取得高雄天氣預報
-app.get("/api/weather/kaohsiung", getKaohsiungWeather);
+// 取得新北市天氣預報
+app.get("/api/weather/newtaipeicity", getNewTaipeiCityWeather);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
