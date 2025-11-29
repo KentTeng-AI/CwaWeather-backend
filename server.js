@@ -65,8 +65,7 @@ const getNewTaipeiCityWeather = async (req, res) => {
     const timeCount = weatherElements[0].time.length;
 
     for (let i = 0; i < timeCount; i++) {
-      const 
-       = {
+      const forecast = {
         startTime: weatherElements[0].time[i].startTime,
         endTime: weatherElements[0].time[i].endTime,
         weather: "",
